@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>จดหมายถึงเธอ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600&display=swap">
+<style>
+/* Layout: one pastel stationery card in the middle of a polka-dot page, walked
+   through step by step: a teaser, a heart scan, the question, a celebration, a
+   letter on lined paper, a few coupons, and the last word. A little bear on
+   top of the card reacts to every answer. Single light look by choice. */
+:root {
+  --bg: #FFE3EC;
+  --dot: #FFC6D8;
+  --card: #FFF8EC;
+  --paper: #FFFDF6;
+  --paper-line: #C9DEF3;
+  --ink: #5A3424;
+  --ink-soft: #94685A;
+  --pink: #E2427F;
+  --pink-deep: #B92C63;
+  --pink-soft: #FFB6CD;
+  --pink-pale: #FFD9E5;
+  --shadow-pink: #F59DB9;
+  --yellow: #FFD98A;
+  --mint: #BFE9D3;
+  --lilac: #DCCBF6;
+  --white: #FFFFFF;
+  --fur: #FFF3E2;
+  color-scheme: light;
+
+  --font-round: "Mali", "Leelawadee UI", "Thonburi", "Tahoma", sans-serif;
+  --font-ui: "Bai Jamjuree", "Leelawadee UI", "Thonburi", "Tahoma", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: radial-gradient(var(--dot) 2.2px, transparent 2.7px) 0 0 / 26px 26px, var(--bg);
+  color: var(--ink);
+  font-family: var(--font-round);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.75;
+  overflow-x: clip;
+}
+h1, h2, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--pink-deep); outline-offset: 3px; }
+[tabindex="-1"]:focus { outline: none; }
+
+#bgfx, #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#bgfx { z-index: 0; }
+#fx { z-index: 20; }
+
+.stage {
+  position: relative;
+  z-index: 1;
+  min-height: 100%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 20px;
+  padding-left: max(18px, env(safe-area-inset-left, 0px));
+  padding-right: max(18px, env(safe-area-inset-right, 0px));
+  padding-block: 22px 34px;
+}
+.top { width: min(410px, 100%); display: flex; justify-content: flex-end; margin-bottom: 14px; }
+.chip {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: .82rem;
+  line-height: 1.4;
+  padding: .45em 1em;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--yellow); }
+
+/* ---------- the card ---------- */
+.shell {
+  position: relative;
+  width: min(410px, 100%);
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 30px;
+  box-shadow: 8px 8px 0 var(--shadow-pink);
+  padding: 30px 22px 28px;
+  text-align: center;
+}
+.tape {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  width: 104px;
+  height: 28px;
+  margin-left: -52px;
+  transform: rotate(-3deg);
+  background: repeating-linear-gradient(135deg, var(--pink-soft) 0 9px, var(--pink-pale) 9px 18px);
+  border-left: 2px dashed var(--card);
+  border-right: 2px dashed var(--card);
+  opacity: .95;
+}
+.badge {
+  width: 132px;
+  aspect-ratio: 1;
+  margin: 4px auto 14px;
+  border-radius: 50%;
+  background: var(--pink-pale);
+  border: 4px solid var(--white);
+  box-shadow: 0 0 0 2.5px var(--ink);
+  display: grid;
+  place-items: center;
+}
+.bear { width: 84%; height: 84%; overflow: visible; animation: bob 2.6s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(2px) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+.b-line { stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
+.b-fur { fill: var(--fur); }
+.b-inner, .b-cheek { fill: var(--pink-soft); }
+.b-muzzle { fill: var(--white); }
+.b-ink { fill: var(--ink); }
+.b-shine { fill: var(--white); }
+.b-bow { fill: var(--pink); }
+.b-stroke { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.b-heart { fill: var(--pink); }
+.b-tear { fill: var(--paper-line); stroke: var(--ink); stroke-width: 1.5; }
+.bear .m { display: none; }
+.bear[data-mood="normal"] .m-normal,
+.bear[data-mood="happy"] .m-happy,
+.bear[data-mood="love"] .m-love,
+.bear[data-mood="sad"] .m-sad,
+.bear[data-mood="wink"] .m-wink { display: inline; }
+
+.step { display: grid; justify-items: center; gap: 12px; }
+.step:not([hidden]) { animation: pop .45s cubic-bezier(.3, 1.4, .5, 1); }
+@keyframes pop { from { transform: scale(.95) translateY(8px); opacity: .35; } }
+.title { font-weight: 700; font-size: clamp(1.55rem, 6.6vw, 1.95rem); line-height: 1.5; text-wrap: balance; }
+.sub { color: var(--ink-soft); max-width: 19em; text-wrap: balance; }
+.tease { color: var(--pink-deep); font-weight: 600; min-height: 1.75em; }
+.ico { width: 1em; height: 1em; fill: currentColor; vertical-align: -.14em; margin-left: .3em; }
+.title .ico, .tease .ico { fill: var(--pink); }
+
+.btn {
+  --k: 1;
+  font-family: var(--font-round);
+  font-weight: 700;
+  font-size: calc(1.08rem * var(--k));
+  line-height: 1.4;
+  max-width: 100%;
+  margin-top: 8px;
+  padding: .62em 1.7em;
+  border-radius: 999px;
+  border: 2.5px solid var(--ink);
+  background: var(--pink);
+  color: var(--white);
+  box-shadow: 0 5px 0 var(--pink-deep);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, font-size .3s cubic-bezier(.3, 1.5, .5, 1);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--pink-deep); }
+.btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--pink-deep); }
+.btn.plain {
+  font-size: calc(.92rem * var(--k));
+  font-weight: 600;
+  padding: .45em 1.3em;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 4px 0 var(--pink-soft);
+}
+.btn.plain:hover { box-shadow: 0 6px 0 var(--pink-soft); }
+.btn.plain:active { box-shadow: 0 1px 0 var(--pink-soft); }
+
+/* ---------- scan ---------- */
+.scan {
+  position: relative;
+  width: 136px;
+  height: 136px;
+  margin: 8px 0 2px;
+  padding: 0;
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--pink);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  overflow: hidden;
+  transition: transform .15s ease, background-color .3s ease;
+}
+.scan.on { transform: scale(.95); }
+.scan .ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.scan .ring circle { fill: none; stroke: var(--pink); stroke-width: 7; stroke-linecap: round; }
+.scan .print { position: absolute; inset: 22%; width: 56%; height: 56%; fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: round; }
+.scan .ok { position: absolute; inset: 27%; width: 46%; height: 46%; fill: var(--pink); display: none; }
+.scan .beam { position: absolute; left: 12%; right: 12%; top: 18%; height: 4px; border-radius: 4px; background: var(--yellow); box-shadow: 0 0 12px var(--yellow); opacity: 0; }
+.scan.on .beam { opacity: 1; animation: sweep .9s ease-in-out infinite alternate; }
+@keyframes sweep { to { top: 78%; } }
+.scan.done { background: var(--pink-pale); cursor: default; }
+.scan.done .print { display: none; }
+.scan.done .ok { display: block; animation: pop .5s cubic-bezier(.3, 1.6, .5, 1); }
+
+/* ---------- question ---------- */
+.choices { display: grid; justify-items: center; gap: 16px; margin-top: 4px; max-width: 100%; }
+
+/* ---------- letter ---------- */
+.shell.is-letter { background: var(--paper); text-align: left; padding-top: 34px; }
+.shell.is-letter .badge { display: none; }
+.step.letter-step { justify-items: stretch; gap: 0; }
+.letter {
+  display: grid;
+  row-gap: 34px;
+  padding: 0 4px 34px 16px;
+  border-left: 2.5px solid var(--pink-soft);
+  background: repeating-linear-gradient(to bottom, transparent 0 33px, var(--paper-line) 33px 34px);
+  font-size: 1rem;
+  line-height: 34px;
+}
+.letter .salute { font-weight: 700; font-size: 1.5rem; color: var(--pink-deep); }
+.letter .sign { text-align: right; }
+.letter .sign b { display: block; font-weight: 700; font-size: 1.3rem; color: var(--pink-deep); }
+.letter .cur::after { content: ""; display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -.2em; background: var(--pink); animation: blink .8s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.letter-foot { display: grid; justify-items: center; gap: 6px; margin-top: 18px; }
+.note { font-family: var(--font-ui); font-size: .8rem; color: var(--ink-soft); min-height: 1.75em; text-align: center; }
+
+/* ---------- coupons ---------- */
+.coupons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; margin-top: 4px; }
+.coupon { display: block; width: 100%; aspect-ratio: 1 / 1; padding: 0; border: 0; border-radius: 18px; background: none; perspective: 700px; cursor: pointer; }
+.coupon .inner { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.3, 1.3, .5, 1); }
+.coupon[aria-pressed="true"] .inner { transform: rotateY(180deg); }
+.face {
+  position: absolute;
+  inset: 0;
+  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.face.front { background: var(--pink-soft); box-shadow: inset 0 0 0 5px var(--pink-pale); }
+.face.front svg { width: 36%; fill: var(--pink); }
+.face.back { background: var(--white); transform: rotateY(180deg); }
+.c-no, .c-tap { font-family: var(--font-ui); font-weight: 600; font-size: .74rem; }
+.c-title { font-weight: 700; font-size: 1.08rem; line-height: 1.45; color: var(--pink-deep); }
+.c-desc { font-size: .78rem; line-height: 1.55; color: var(--ink-soft); }
+
+/* ---------- final ---------- */
+.love-word {
+  font-weight: 700;
+  font-size: clamp(3.2rem, 17vw, 4.4rem);
+  line-height: 1.35;
+  color: var(--pink);
+  text-shadow: 3px 3px 0 var(--white), 6px 6px 0 var(--pink-soft);
+  animation: beat 1.2s ease-in-out infinite;
+}
+@keyframes beat { 0%, 100% { transform: scale(1); } 18% { transform: scale(1.08); } 36% { transform: scale(1); } 54% { transform: scale(1.05); } }
+
+.dots { display: flex; gap: 9px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--ink); background: var(--card); transition: transform .3s ease, background-color .3s ease; }
+.dots i.on { background: var(--pink); transform: scale(1.3); }
+.dots i.was { background: var(--pink-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bear, .step:not([hidden]), .scan.on .beam, .scan.done .ok, .love-word, .letter .cur::after { animation: none; }
+  .btn, .coupon .inner, .scan, .dots i { transition: none; }
+}
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-heart" viewBox="0 0 100 100"><path d="M50 88 C20 66 6 48 6 32 C6 18 17 8 30 8 C39 8 46 13 50 20 C54 13 61 8 70 8 C83 8 94 18 94 32 C94 48 80 66 50 88Z"></path></symbol>
+</svg>
+
+<canvas id="bgfx" aria-hidden="true"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main class="stage">
+  <div class="top">
+    <button class="chip" type="button" id="music" aria-pressed="false">เปิดเพลง</button>
+  </div>
+
+  <div class="shell" id="shell">
+    <div class="tape" aria-hidden="true"></div>
+    <div class="badge" aria-hidden="true">
+      <svg class="bear" id="bear" data-mood="normal" viewBox="0 0 120 120">
+        <circle class="b-fur b-line" cx="30" cy="36" r="17"></circle>
+        <circle class="b-fur b-line" cx="90" cy="36" r="17"></circle>
+        <circle class="b-inner" cx="30" cy="36" r="8"></circle>
+        <circle class="b-inner" cx="90" cy="36" r="8"></circle>
+        <ellipse class="b-fur b-line" cx="60" cy="68" rx="46" ry="40"></ellipse>
+        <ellipse class="b-cheek" cx="29" cy="81" rx="8" ry="5"></ellipse>
+        <ellipse class="b-cheek" cx="91" cy="81" rx="8" ry="5"></ellipse>
+        <ellipse class="b-muzzle" cx="60" cy="81" rx="13" ry="10"></ellipse>
+        <ellipse class="b-ink" cx="60" cy="76" rx="4.5" ry="3.2"></ellipse>
+        <path class="b-bow b-line" d="M90 22 L76 13 L76 31 Z"></path>
+        <path class="b-bow b-line" d="M90 22 L104 13 L104 31 Z"></path>
+        <circle class="b-bow b-line" cx="90" cy="22" r="4.5"></circle>
+        <g class="m m-normal">
+          <circle class="b-ink" cx="42" cy="64" r="4.6"></circle><circle class="b-ink" cx="78" cy="64" r="4.6"></circle>
+          <circle class="b-shine" cx="43.6" cy="62.4" r="1.5"></circle><circle class="b-shine" cx="79.6" cy="62.4" r="1.5"></circle>
+          <path class="b-stroke" d="M54 83 Q60 89 66 83"></path>
+        </g>
+        <g class="m m-happy">
+          <path class="b-stroke" d="M36 66 Q42 57 48 66"></path><path class="b-stroke" d="M72 66 Q78 57 84 66"></path>
+          <path class="b-stroke" d="M53 82 Q60 91 67 82"></path>
+        </g>
+        <g class="m m-love">
+          <use class="b-heart" href="#i-heart" x="32" y="54" width="20" height="20"></use>
+          <use class="b-heart" href="#i-heart" x="68" y="54" width="20" height="20"></use>
+          <path class="b-stroke" d="M53 82 Q60 91 67 82"></path>
+        </g>
+        <g class="m m-sad">
+          <circle class="b-ink" cx="42" cy="65" r="4.6"></circle><circle class="b-ink" cx="78" cy="65" r="4.6"></circle>
+          <path class="b-stroke" d="M34 55 L48 59"></path><path class="b-stroke" d="M86 55 L72 59"></path>
+          <path class="b-tear" d="M40 71 Q36 78 40 80 Q44 78 40 71Z"></path>
+          <path class="b-stroke" d="M54 87 Q60 82 66 87"></path>
+        </g>
+        <g class="m m-wink">
+          <path class="b-stroke" d="M36 66 Q42 59 48 66"></path>
+          <circle class="b-ink" cx="78" cy="64" r="4.6"></circle><circle class="b-shine" cx="79.6" cy="62.4" r="1.5"></circle>
+          <path class="b-stroke" d="M54 83 Q60 89 66 83"></path>
+        </g>
+      </svg>
+    </div>
+
+    <section class="step" id="s-intro">
+      <h1 class="title" tabindex="-1" data-focus>มีเรื่องสำคัญอยากบอก…</h1>
+      <p class="sub">ตั้งแต่มีเธอ ทุกวันของเราก็น่ารักขึ้นแบบไม่รู้ตัวเลย</p>
+      <p class="sub">เลยอยากบอกจากใจจริงๆ สักหน่อย</p>
+      <button class="btn" type="button" id="to-scan">ไปต่อ<svg class="ico" aria-hidden="true"><use href="#i-heart"></use></svg></button>
+    </section>
+
+    <section class="step" id="s-scan" hidden>
+      <h2 class="title" tabindex="-1" data-focus>ก่อนจะบอก ขอสแกนหัวใจหน่อยนะ</h2>
+      <button class="scan" type="button" id="scan" aria-label="กดค้างเพื่อสแกนหัวใจ">
+        <svg class="print" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M22 62 C22 34 36 20 50 20 C64 20 78 34 78 62"></path>
+          <path d="M32 72 C32 62 32 58 32 52 C32 39 40 31 50 31 C60 31 68 39 68 52 C68 62 68 66 66 76"></path>
+          <path d="M42 80 C42 68 42 60 42 53 C42 46 45 42 50 42 C55 42 58 46 58 53 C58 64 58 72 55 84"></path>
+          <path d="M50 53 C50 66 50 76 48 88"></path>
+        </svg>
+        <svg class="ok" aria-hidden="true"><use href="#i-heart"></use></svg>
+        <span class="beam" aria-hidden="true"></span>
+        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle id="scan-ring" cx="50" cy="50" r="46"></circle></svg>
+      </button>
+      <p class="tease" id="scan-msg" aria-live="polite">วางนิ้วแล้วกดค้างไว้เลย</p>
+      <button class="btn" type="button" id="to-ask" hidden>ไปฟังกัน<svg class="ico" aria-hidden="true"><use href="#i-heart"></use></svg></button>
+    </section>
+
+    <section class="step" id="s-ask" hidden>
+      <h2 class="title" tabindex="-1" data-focus>เธอรักเราไหม?</h2>
+      <p class="sub">เราสัญญาว่าจะดูแลเธอ ให้ดีที่สุดเท่าที่เราจะทำได้เลยนะ</p>
+      <p class="tease" id="ask-tease" aria-live="polite">ตอบตามใจได้เลยน้า</p>
+      <div class="choices">
+        <button class="btn" type="button" id="yes">รัก<svg class="ico" aria-hidden="true"><use href="#i-heart"></use></svg></button>
+        <button class="btn plain" type="button" id="no">ไม่รัก</button>
+      </div>
+    </section>
+
+    <section class="step" id="s-yay" hidden>
+      <h2 class="title" tabindex="-1" data-focus>เราก็รักเธอนะ<svg class="ico" aria-hidden="true"><use href="#i-heart"></use></svg></h2>
+      <p class="sub">ขอบคุณที่กดปุ่มนั้นนะ ใจฟูไปหมดแล้ว</p>
+      <p class="sub">ตั้งแต่นี้ไป มาเก็บเรื่องน่ารักๆ ไปด้วยกันอีกเยอะๆ เลยนะ</p>
+      <button class="btn" type="button" id="to-end">ไปต่อ<svg class="ico" aria-hidden="true"><use href="#i-heart"></use></svg></button>
+    </section>
+
+    <section class="step" id="s-end" hidden>
+      <h2 class="title" tabindex="-1" data-focus>ตั้งแต่วันนี้ และทุกวันต่อจากนี้</h2>
+      <p class="sub">มีคนคนหนึ่งรักเธอเพิ่มขึ้นทุกวันเลยนะ</p>
+      <p class="love-word">รักนะ</p>
+      <button class="btn plain" type="button" id="restart">อ่านอีกครั้ง</button>
+    </section>
+  </div>
+
+  <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const $ = id => document.getElementById(id);
+  const cs = getComputedStyle(root);
+  const tok = n => cs.getPropertyValue(n).trim();
+  const C = {
+    pink: tok('--pink'), soft: tok('--pink-soft'), pale: tok('--pink-pale'), shadow: tok('--shadow-pink'),
+    yellow: tok('--yellow'), mint: tok('--mint'), lilac: tok('--lilac'), white: tok('--white')
+  };
+  const HEARTS = [C.pink, C.soft, C.shadow, C.pink];
+  const CONFETTI = [C.pink, C.soft, C.yellow, C.mint, C.lilac, C.white];
+
+  function heartPath(c, s) {
+    c.beginPath();
+    c.moveTo(0, s * .9);
+    c.bezierCurveTo(-s * 1.6, -s * .3, -s * .7, -s * 1.3, 0, -s * .45);
+    c.bezierCurveTo(s * .7, -s * 1.3, s * 1.6, -s * .3, 0, s * .9);
+    c.closePath();
+  }
+  function bowPath(c, s) {
+    c.beginPath();
+    c.moveTo(0, 0); c.lineTo(-s * 1.3, -s * .8); c.lineTo(-s * 1.3, s * .8); c.closePath();
+    c.moveTo(0, 0); c.lineTo(s * 1.3, -s * .8); c.lineTo(s * 1.3, s * .8); c.closePath();
+    c.moveTo(s * .38, 0); c.arc(0, 0, s * .38, 0, 6.283);
+  }
+
+  /* ================= floating hearts behind, bursts in front ================= */
+  const bg = $('bgfx'), bc = bg.getContext('2d'), fx = $('fx'), fc = fx.getContext('2d');
+  let W = 0, H = 0, floaters = [], parts = [], running = false, last = 0, fxDirty = false;
+
+  function floater(initial) {
+    return {
+      x: Math.random() * W,
+      y: initial ? Math.random() * H : H + 20 + Math.random() * 60,
+      vy: -(12 + Math.random() * 22),
+      sway: 8 + Math.random() * 14, f: .5 + Math.random() * .9, ph: Math.random() * 6.28,
+      s: 5 + Math.random() * 8, a: .35 + Math.random() * .4, t: Math.random() * 10,
+      rot: (Math.random() - .5) * .6,
+      kind: Math.random() < .75 ? 'h' : 'b',
+      color: Math.random() < .6 ? C.shadow : C.white
+    };
+  }
+  function drawFloaters() {
+    bc.clearRect(0, 0, W, H);
+    for (const p of floaters) {
+      bc.save();
+      bc.translate(p.x + Math.sin(p.t * p.f + p.ph) * p.sway, p.y);
+      bc.rotate(p.rot);
+      bc.globalAlpha = p.a;
+      bc.fillStyle = p.color;
+      if (p.kind === 'h') heartPath(bc, p.s); else bowPath(bc, p.s * .9);
+      bc.fill();
+      bc.restore();
+    }
+  }
+  function sizeCanvases() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    [[bg, bc], [fx, fc]].forEach(([cv, c]) => {
+      cv.width = Math.round(W * dpr);
+      cv.height = Math.round(H * dpr);
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    });
+    const n = Math.min(26, Math.max(10, Math.round(W / 40)));
+    floaters = Array.from({ length: n }, () => floater(true));
+    drawFloaters();
+  }
+  function hearts(x, y, n, power) {
+    if (reduce.matches) return;
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2, sp = power * (.25 + Math.random() * .75);
+      parts.push({
+        kind: 'h', x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - power * .45, g: 420,
+        life: 1.1 + Math.random() * 1.1, fade: .6, s: 4 + Math.random() * 7,
+        rot: (Math.random() - .5) * .9, vr: (Math.random() - .5) * 2.4, flip: 0,
+        color: HEARTS[(Math.random() * HEARTS.length) | 0]
+      });
+    }
+    trim();
+  }
+  function confetti(n) {
+    if (reduce.matches) return;
+    for (let i = 0; i < n; i++) {
+      parts.push({
+        kind: Math.random() < .25 ? 'h' : 'r',
+        x: Math.random() * W, y: -20 - Math.random() * H * .4,
+        vx: (Math.random() - .5) * 90, vy: 120 + Math.random() * 200, g: 90,
+        life: 3.4 + Math.random() * 1.6, fade: .8, s: 4 + Math.random() * 5,
+        rot: Math.random() * 6.28, vr: (Math.random() - .5) * 8, flip: 2 + Math.random() * 5,
+        color: CONFETTI[(Math.random() * CONFETTI.length) | 0]
+      });
+    }
+    trim();
+  }
+  function trim() {
+    if (parts.length > 700) parts.splice(0, parts.length - 700);
+    start();
+  }
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min(Math.max((now - last) / 1000, 0), .05);
+    last = now;
+    for (let i = 0; i < floaters.length; i++) {
+      const p = floaters[i];
+      p.t += dt;
+      p.y += p.vy * dt;
+      if (p.y < -30) floaters[i] = floater(false);
+    }
+    drawFloaters();
+    if (parts.length || fxDirty) {
+      fc.clearRect(0, 0, W, H);
+      for (let i = parts.length - 1; i >= 0; i--) {
+        const p = parts[i];
+        p.life -= dt;
+        if (p.life <= 0 || p.y > H + 40) { parts.splice(i, 1); continue; }
+        p.vy += p.g * dt;
+        p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+        fc.save();
+        fc.translate(p.x, p.y);
+        fc.rotate(p.rot);
+        if (p.flip) {
+          let k = Math.cos(p.life * p.flip);
+          if (Math.abs(k) < .12) k = .12;
+          fc.scale(1, k);
+        }
+        fc.globalAlpha = Math.min(1, p.life / p.fade);
+        fc.fillStyle = p.color;
+        if (p.kind === 'h') { heartPath(fc, p.s); fc.fill(); }
+        else fc.fillRect(-p.s, -p.s * .55, p.s * 2, p.s * 1.1);
+        fc.restore();
+      }
+      fxDirty = parts.length > 0;
+    }
+    requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running || reduce.matches || document.hidden) return;
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(frame);
+  }
+  sizeCanvases();
+  start();
+  addEventListener('resize', sizeCanvases);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) running = false; else start(); });
+  reduce.addEventListener('change', () => {
+    if (reduce.matches) { running = false; parts = []; fc.clearRect(0, 0, W, H); drawFloaters(); } else start();
+  });
+  addEventListener('pointerdown', e => hearts(e.clientX, e.clientY, 6, 180), { passive: true });
+  const burstFrom = (el, n, power) => {
+    const r = el.getBoundingClientRect();
+    hearts(r.left + r.width / 2, r.top + r.height / 2, n, power);
+  };
+
+  /* ================= music box (synthesised, original loop) ================= */
+  const musicBtn = $('music');
+  const SEQ = [659.25, 783.99, 1046.5, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 659.25, 783.99, 659.25, 587.33, 659.25, 523.25, 0];
+  const STEP = .34;
+  let actx = null, master = null, musicOn = false, mTimer = 0, nextT = 0, stepI = 0;
+  function note(f, t) {
+    const o = actx.createOscillator(), o2 = actx.createOscillator(), g = actx.createGain(), g2 = actx.createGain();
+    o.type = 'sine'; o2.type = 'sine';
+    o.frequency.value = f; o2.frequency.value = f * 3;
+    g2.gain.value = .1;
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(.17, t + .012);
+    g.gain.exponentialRampToValueAtTime(.0001, t + 1.4);
+    o.connect(g); o2.connect(g2); g2.connect(g); g.connect(master);
+    o.start(t); o2.start(t); o.stop(t + 1.5); o2.stop(t + 1.5);
+  }
+  function schedule() {
+    while (nextT < actx.currentTime + .4) {
+      const f = SEQ[stepI % SEQ.length];
+      if (f) note(f, nextT);
+      nextT += STEP; stepI++;
+    }
+  }
+  function musicPlay() {
+    clearInterval(mTimer);
+    actx.resume();
+    nextT = actx.currentTime + .06;
+    schedule();
+    mTimer = setInterval(schedule, 120);
+  }
+  musicBtn.addEventListener('click', () => {
+    if (!actx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { musicBtn.textContent = 'เครื่องนี้เล่นเสียงไม่ได้'; musicBtn.disabled = true; return; }
+      actx = new AC();
+      master = actx.createGain();
+      master.gain.value = .5;
+      master.connect(actx.destination);
+    }
+    musicOn = !musicOn;
+    musicBtn.setAttribute('aria-pressed', String(musicOn));
+    musicBtn.textContent = musicOn ? 'ปิดเพลง' : 'เปิดเพลง';
+    if (musicOn) musicPlay(); else clearInterval(mTimer);
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (!musicOn) return;
+    if (document.hidden) clearInterval(mTimer); else musicPlay();
+  });
+
+  /* ================= steps ================= */
+  const STEPS = ['intro', 'scan', 'ask', 'yay', 'end'];
+  const MOODS = { intro: 'normal', scan: 'wink', ask: 'normal', yay: 'happy', end: 'love' };
+  const shell = $('shell'), bear = $('bear'), dots = Array.from($('dots').children);
+  let current = 'intro', moodTimer = 0;
+  function setMood(m, revertTo, ms) {
+    clearTimeout(moodTimer);
+    bear.dataset.mood = m;
+    if (revertTo) moodTimer = setTimeout(() => { bear.dataset.mood = revertTo; }, ms || 1300);
+  }
+  function go(name) {
+    current = name;
+    const idx = STEPS.indexOf(name);
+    STEPS.forEach(s => { $('s-' + s).hidden = s !== name; });
+    dots.forEach((d, i) => { d.className = i === idx ? 'on' : (i < idx ? 'was' : ''); });
+    setMood(MOODS[name]);
+    window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
+    const f = $('s-' + name).querySelector('[data-focus]');
+    if (f) f.focus({ preventScroll: true });
+    if (name === 'yay') { confetti(150); burstFrom(shell, 40, 420); }
+    if (name === 'end') {
+      confetti(120);
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => hearts(W * (.12 + Math.random() * .76), H * (.15 + Math.random() * .5), 40, 440), i * 300);
+      }
+    }
+  }
+  dots[0].className = 'on';
+  $('to-scan').addEventListener('click', () => go('scan'));
+  $('to-ask').addEventListener('click', () => go('ask'));
+  $('to-end').addEventListener('click', () => go('end'));
+
+  /* ================= heart scan: press and hold ================= */
+  const scanBtn = $('scan'), ring = $('scan-ring'), scanMsg = $('scan-msg'), toAsk = $('to-ask');
+  const RING = 2 * Math.PI * 46;
+  let scanP = 0, scanning = false, scanDone = false, scanLast = 0, scanShown = -1;
+  ring.style.strokeDasharray = String(RING);
+  function scanRender() { ring.style.strokeDashoffset = String(RING * (1 - scanP)); }
+  function scanLoop(now) {
+    if (!scanning || scanDone) return;
+    const dt = Math.min(Math.max((now - scanLast) / 1000, 0), .05);
+    scanLast = now;
+    scanP = Math.min(1, scanP + dt / 1.8);
+    scanRender();
+    const tens = Math.floor(scanP * 10) * 10;
+    if (tens !== scanShown) { scanShown = tens; scanMsg.textContent = 'กำลังสแกนหัวใจ… ' + tens + '%'; }
+    if (scanP >= 1) {
+      scanDone = true; scanning = false;
+      scanBtn.classList.remove('on');
+      scanBtn.classList.add('done');
+      scanBtn.disabled = true;
+      scanMsg.textContent = 'ผ่านแล้ว ตรวจพบความน่ารักเกินกำหนด';
+      setMood('happy');
+      burstFrom(scanBtn, 30, 340);
+      toAsk.hidden = false;
+      toAsk.focus({ preventScroll: true });
+      return;
+    }
+    requestAnimationFrame(scanLoop);
+  }
+  function scanStart() {
+    if (scanDone || scanning) return;
+    scanning = true;
+    scanBtn.classList.add('on');
+    scanLast = performance.now();
+    requestAnimationFrame(scanLoop);
+  }
+  function scanStop() {
+    if (scanDone || !scanning) return;
+    scanning = false;
+    scanBtn.classList.remove('on');
+    scanP = 0; scanShown = -1;
+    scanRender();
+    scanMsg.textContent = 'ปล่อยเร็วไปนิด กดค้างไว้จนครบนะ';
+  }
+  function scanReset() {
+    scanP = 0; scanning = false; scanDone = false; scanShown = -1;
+    scanBtn.classList.remove('on', 'done');
+    scanBtn.disabled = false;
+    scanRender();
+    scanMsg.textContent = 'วางนิ้วแล้วกดค้างไว้เลย';
+    toAsk.hidden = true;
+  }
+  scanRender();
+  scanBtn.addEventListener('pointerdown', e => {
+    try { scanBtn.setPointerCapture(e.pointerId); } catch (err) {}
+    scanStart();
+  });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => scanBtn.addEventListener(t, scanStop));
+  scanBtn.addEventListener('contextmenu', e => e.preventDefault());
+  scanBtn.addEventListener('keydown', e => {
+    if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); scanStart(); }
+  });
+  scanBtn.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') scanStop(); });
+
+  /* ================= the question: "รัก" grows, "ไม่รัก" shrinks ================= */
+  const yes = $('yes'), no = $('no'), askTease = $('ask-tease');
+  const TEASE = ['ตอบตามใจได้เลยน้า', 'คิดดีๆ ก่อนน้าาา', 'แน่ใจแล้วหรอ', 'กดผิดหรือเปล่า', 'ใจร้ายจังเลย', 'เหลือปุ่มเดียวแล้วนะ'];
+  const NO_LABEL = ['ไม่รัก', 'ยังไม่รัก', 'ขอคิดก่อน', 'ไม่แน่ใจ', 'ก็ได้…'];
+  let noCount = 0;
+  function askRender() {
+    yes.style.setProperty('--k', String(1 + noCount * .17));
+    no.style.setProperty('--k', String(Math.max(.6, 1 - noCount * .1)));
+    askTease.textContent = TEASE[noCount];
+    if (noCount < NO_LABEL.length) { no.hidden = false; no.textContent = NO_LABEL[noCount]; } else no.hidden = true;
+  }
+  no.addEventListener('click', () => {
+    noCount = Math.min(noCount + 1, NO_LABEL.length);
+    askRender();
+    setMood('sad', 'normal', 1500);
+    if (no.hidden) yes.focus({ preventScroll: true });
+  });
+  yes.addEventListener('click', () => go('yay'));
+
+  /* ================= start over ================= */
+  $('restart').addEventListener('click', () => {
+    scanReset();
+    noCount = 0;
+    askRender();
+    go('intro');
+  });
+})();
+</script>
+</body>
+</html>
